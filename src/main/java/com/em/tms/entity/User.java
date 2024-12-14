@@ -3,7 +3,7 @@ package com.em.tms.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-    @Data
+@Data
     @Entity
     @Table(name = "users")
     public class User {
@@ -20,5 +20,7 @@ import lombok.Data;
 
         @Column(nullable = false)
         private String role;
+
+
     }
 
