@@ -26,7 +26,18 @@ public class UserController {
 
     private final UserService userService;
 
-    @Operation(summary = "Регистрация нового пользователя")
+    @Operation(
+            summary = "Регистрация нового пользователя",
+            description = "Этот метод используется для регистрации нового пользователя в системе. " +
+                    "Доступ к этому методу имеет любой пользователь, поскольку он не требует аутентификации или определённой роли. " +
+                    "После успешной регистрации пользователь может получить роль, например, USER. " +
+                    "Роли в системе: USER (для обычных пользователей) и ADMIN (для администраторов)."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Пользователь успешно зарегистрирован"),
+            @ApiResponse(responseCode = "400", description = "Некорректные данные пользователя"),
+            @ApiResponse(responseCode = "500", description = "Ошибка сервера")
+    })
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public String registerUser(@Valid @RequestBody UserDTO userDTO) {
