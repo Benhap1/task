@@ -6,12 +6,13 @@ import com.em.tms.entity.TaskStatus;
 import java.time.LocalDateTime;
 
 public record TaskDTO(
+        int id,
         String title,
         String description,
         TaskStatus status,
         TaskPriority priority,
-        int authorId,
-        Integer assigneeId,
+        String authorEmail,
+        String assigneeEmail,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {}
