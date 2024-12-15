@@ -72,6 +72,7 @@ public class UserServiceImpl implements UserService {
     public void updateUser(String email, UserDTO userDTO) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
+        user.setEmail(userDTO.email());
         user.setPassword(passwordEncoder.encode(userDTO.password()));
         user.setRole(userDTO.role());
 

@@ -61,7 +61,7 @@ public class UserController {
     }
 
 
-    @Operation(summary = "ОБновление данных пользователя по email")
+    @Operation(summary = "Обновление данных пользователя по email")
     @PutMapping("/{email}")
     @Secured("ROLE_ADMIN")
     @ResponseStatus(HttpStatus.OK)
