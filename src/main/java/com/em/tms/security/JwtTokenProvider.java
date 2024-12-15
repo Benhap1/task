@@ -6,6 +6,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
 import java.time.Instant;
 import java.util.Date;
 import java.util.Map;
@@ -14,6 +15,7 @@ import java.util.Map;
 public class JwtTokenProvider {
 
     private final Algorithm algorithm;
+    private final JwtUserDetailsService jwtUserDetailsService;
 
     @Value("${jwt.access-token-validity}")
     private long accessTokenValidity;
@@ -21,8 +23,9 @@ public class JwtTokenProvider {
     @Value("${jwt.refresh-token-validity}")
     private long refreshTokenValidity;
 
-    public JwtTokenProvider(@Value("${jwt.secret}") String secret) {
+    public JwtTokenProvider(@Value("${jwt.secret}") String secret, JwtUserDetailsService jwtUserDetailsService) {
         this.algorithm = Algorithm.HMAC256(secret);
+        this.jwtUserDetailsService = jwtUserDetailsService;
     }
 
     public String generateAccessToken(UserDetails userDetails, Map<String, Object> claims) {
@@ -47,6 +50,7 @@ public class JwtTokenProvider {
                 .withExpiresAt(Date.from(expiry))
                 .sign(algorithm);
     }
+
 
     public boolean validateToken(String token) {
         return !isTokenExpired(token);

@@ -33,21 +33,19 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> authz
-                        // Public endpoints
-                        .requestMatchers(HttpMethod.POST, "/api/users/register", "/api/users/login").permitAll()
 
-                        // Secured endpoints for UserController
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/users/register", "/api/users/login", "/api/auth/refresh").permitAll()
+
                         .requestMatchers(HttpMethod.GET, "/api/users/{email}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/users/{email}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/users/{email}").hasRole("ADMIN")
 
-                        // Task-specific endpoints
                         .requestMatchers(HttpMethod.GET, "/api/tasks/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/tasks/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/tasks/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/tasks/**").hasRole("ADMIN")
 
-                        // Any other request
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, jwtUserDetailsService), UsernamePasswordAuthenticationFilter.class);
