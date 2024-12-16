@@ -1,6 +1,7 @@
 package com.em.tms.controller;
 import com.em.tms.DTO.TaskCreateDTO;
 import com.em.tms.DTO.TaskDTO;
+import com.em.tms.DTO.TaskUpdateDTO;
 import com.em.tms.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,15 +34,15 @@ public class TaskController {
     }
 
 
-//    @Operation(summary = "Редактирование задачи по ID")
-//    @PutMapping("/{taskId}")
-//    @Secured({"ROLE_ADMIN", "ROLE_USER"})
-//    @ResponseStatus(HttpStatus.OK)
-//    public TaskDTO updateTask(@PathVariable int taskId,
-//                              @Valid @RequestBody TaskUpdateDTO taskUpdateDTO) {
-//        return taskService.updateTask(taskId, taskUpdateDTO);
-//    }
-//
+    @Operation(summary = "Редактирование задачи по ID")
+    @PutMapping("/{taskId}")
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    @ResponseStatus(HttpStatus.OK)
+    public TaskDTO updateTask(@PathVariable int taskId,
+                              @Valid @RequestBody TaskUpdateDTO taskUpdateDTO) {
+        return taskService.updateTask(taskId, taskUpdateDTO);
+    }
+
 //    @Operation(summary = "Удаление задачи по ID")
 //    @DeleteMapping("/{taskId}")
 //    @Secured("ROLE_ADMIN")
