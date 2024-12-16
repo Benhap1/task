@@ -8,8 +8,9 @@ import com.em.tms.entity.TaskPriority;
 import com.em.tms.entity.TaskStatus;
 import com.em.tms.entity.User;
 import org.springframework.stereotype.Component;
-
 import java.time.LocalDateTime;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 @Component
 public class TaskMapper {
@@ -41,21 +42,12 @@ public class TaskMapper {
                 .build();
     }
 
-
     public Task updateEntity(Task task, TaskUpdateDTO taskUpdateDTO, User author, User assignee) {
+        updateField(taskUpdateDTO.title(), task::setTitle);
+        updateField(taskUpdateDTO.description(), task::setDescription);
+        updateEnumField(taskUpdateDTO.status(), TaskStatus::valueOf, task::setStatus);
+        updateEnumField(taskUpdateDTO.priority(), TaskPriority::valueOf, task::setPriority);
 
-        if (taskUpdateDTO.title() != null) {
-            task.setTitle(taskUpdateDTO.title());
-        }
-        if (taskUpdateDTO.description() != null) {
-            task.setDescription(taskUpdateDTO.description());
-        }
-        if (taskUpdateDTO.status() != null) {
-            task.setStatus(TaskStatus.valueOf(taskUpdateDTO.status()));
-        }
-        if (taskUpdateDTO.priority() != null) {
-            task.setPriority(TaskPriority.valueOf(taskUpdateDTO.priority()));
-        }
         if (author != null) {
             task.setAuthor(author);
         }
@@ -64,7 +56,16 @@ public class TaskMapper {
         }
 
         task.setUpdatedAt(LocalDateTime.now());
-
         return task;
+    }
+    private <T> void updateField(T newValue, Consumer<T> setter) {
+        if (newValue != null) {
+            setter.accept(newValue);
+        }
+    }
+    private <T extends Enum<T>> void updateEnumField(String newValue, Function<String, T> parser, Consumer<T> setter) {
+        if (newValue != null) {
+            setter.accept(parser.apply(newValue));
+        }
     }
 }

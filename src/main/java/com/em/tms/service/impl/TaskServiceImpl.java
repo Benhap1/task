@@ -61,7 +61,6 @@ public class TaskServiceImpl implements TaskService {
             return updateTaskAsUser(task, taskUpdateDTO);
         }
 
-
         throw new SecurityException("User is not allowed to update this task");
     }
 
@@ -92,6 +91,12 @@ public class TaskServiceImpl implements TaskService {
         }
         Task updatedTask = taskRepository.save(task);
         return taskMapper.toDto(updatedTask);
+    }
+    @Override
+    public void deleteTask(int taskId) {
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new IllegalArgumentException("Task with ID " + taskId + " not found"));
+        taskRepository.delete(task);
     }
 }
 

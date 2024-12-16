@@ -43,15 +43,15 @@ public class TaskController {
         return taskService.updateTask(taskId, taskUpdateDTO);
     }
 
-//    @Operation(summary = "Удаление задачи по ID")
-//    @DeleteMapping("/{taskId}")
-//    @Secured("ROLE_ADMIN")
-//    @ResponseStatus(HttpStatus.OK)
-//    public String deleteTask(@PathVariable int taskId) {
-//        taskService.deleteTask(taskId);
-//        return "Task deleted successfully";
-//    }
-//
+    @Operation(summary = "Удаление задачи по ID")
+    @DeleteMapping("/{taskId}")
+    @Secured("ROLE_ADMIN")
+    @ResponseStatus(HttpStatus.OK)
+    public String deleteTask(@PathVariable int taskId) {
+        taskService.deleteTask(taskId);
+        return "Task deleted successfully";
+    }
+
 //    @Operation(summary = "Получение задачи по ID")
 //    @GetMapping("/{taskId}")
 //    @Secured({"ROLE_ADMIN", "ROLE_USER"})
@@ -59,7 +59,7 @@ public class TaskController {
 //    public TaskDetailsDTO getTaskById(@PathVariable int taskId) {
 //        return taskService.getTaskById(taskId);
 //    }
-//
+
 //    @Operation(summary = "Получение всех задач с фильтрацией и пагинацией")
 //    @GetMapping
 //    @Secured({"ROLE_ADMIN", "ROLE_USER"})

@@ -9,4 +9,6 @@ public interface TaskService {
     TaskDTO createTask(TaskCreateDTO taskCreateDTO);
     TaskDTO updateTask(int taskId, TaskUpdateDTO taskUpdateDTO);
 
+    public void deleteTask(int taskId);
+
 }
