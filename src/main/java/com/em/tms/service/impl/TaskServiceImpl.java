@@ -4,16 +4,23 @@ import com.em.tms.DTO.TaskCreateDTO;
 import com.em.tms.DTO.TaskDTO;
 import com.em.tms.DTO.TaskUpdateDTO;
 import com.em.tms.entity.Task;
+import com.em.tms.entity.TaskPriority;
 import com.em.tms.entity.TaskStatus;
 import com.em.tms.entity.User;
 import com.em.tms.mapper.TaskMapper;
 import com.em.tms.repository.TaskRepository;
 import com.em.tms.repository.UserRepository;
 import com.em.tms.service.TaskService;
+import com.em.tms.service.TaskSpecifications;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -97,6 +104,41 @@ public class TaskServiceImpl implements TaskService {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new IllegalArgumentException("Task with ID " + taskId + " not found"));
         taskRepository.delete(task);
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public TaskDTO getTaskById(int taskId) {
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new IllegalArgumentException("Task with ID " + taskId + " not found"));
+        return taskMapper.toDto(task);
+    }
+
+
+    @Transactional(readOnly = true)
+    public Page<TaskDTO> getAllTasks(String status, String priority, String authorEmail, String assigneeEmail, int page, int size) {
+
+        Specification<Task> specification = Specification.where(null);
+
+        if (status != null) {
+            specification = specification.and(TaskSpecifications.hasStatus(TaskStatus.valueOf(status)));
+        }
+
+        if (priority != null) {
+            specification = specification.and(TaskSpecifications.hasPriority(TaskPriority.valueOf(priority)));
+        }
+
+        if (authorEmail != null) {
+            specification = specification.and(TaskSpecifications.hasAuthorEmail(authorEmail));
+        }
+
+        if (assigneeEmail != null) {
+            specification = specification.and(TaskSpecifications.hasAssigneeEmail(assigneeEmail));
+        }
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        return taskRepository.findAll(specification, pageable)
+                .map(taskMapper::toDto);
     }
 }
 
