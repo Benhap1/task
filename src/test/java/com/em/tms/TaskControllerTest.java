@@ -1,9 +1,9 @@
 package com.em.tms;
 
-import com.em.tms.DTO.TaskCreateDTO;
-import com.em.tms.DTO.TaskDTO;
-import com.em.tms.DTO.TaskUpdateDTO;
-import com.em.tms.controller.TaskController;
+import com.em.tms.web.DTO.TaskCreateDTO;
+import com.em.tms.web.DTO.TaskDTO;
+import com.em.tms.web.DTO.TaskUpdateDTO;
+import com.em.tms.web.controller.TaskController;
 import com.em.tms.entity.TaskPriority;
 import com.em.tms.entity.TaskStatus;
 import com.em.tms.service.TaskService;

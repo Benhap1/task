@@ -1,7 +1,7 @@
-package com.em.tms.controller;
+package com.em.tms.web.controller;
 
-import com.em.tms.DTO.CommentCreateDTO;
-import com.em.tms.DTO.CommentDTO;
+import com.em.tms.web.DTO.CommentCreateDTO;
+import com.em.tms.web.DTO.CommentDTO;
 import com.em.tms.service.CommentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

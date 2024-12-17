@@ -1,8 +1,8 @@
-package com.em.tms.controller;
+package com.em.tms.web.controller;
 
-import com.em.tms.DTO.TaskCreateDTO;
-import com.em.tms.DTO.TaskDTO;
-import com.em.tms.DTO.TaskUpdateDTO;
+import com.em.tms.web.DTO.TaskCreateDTO;
+import com.em.tms.web.DTO.TaskDTO;
+import com.em.tms.web.DTO.TaskUpdateDTO;
 import com.em.tms.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

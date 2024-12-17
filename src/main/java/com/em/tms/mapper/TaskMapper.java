@@ -1,8 +1,8 @@
 package com.em.tms.mapper;
 
-import com.em.tms.DTO.TaskCreateDTO;
-import com.em.tms.DTO.TaskDTO;
-import com.em.tms.DTO.TaskUpdateDTO;
+import com.em.tms.web.DTO.TaskCreateDTO;
+import com.em.tms.web.DTO.TaskDTO;
+import com.em.tms.web.DTO.TaskUpdateDTO;
 import com.em.tms.entity.Task;
 import com.em.tms.entity.TaskPriority;
 import com.em.tms.entity.TaskStatus;

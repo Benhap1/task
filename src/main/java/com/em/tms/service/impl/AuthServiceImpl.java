@@ -1,7 +1,7 @@
 package com.em.tms.service.impl;
 
-import com.em.tms.DTO.AuthResponse;
-import com.em.tms.DTO.TokenRefreshRequest;
+import com.em.tms.web.DTO.AuthResponse;
+import com.em.tms.web.DTO.TokenRefreshRequest;
 import com.em.tms.exception.InvalidTokenException;
 import com.em.tms.security.JwtTokenProvider;
 import com.em.tms.security.JwtUserDetailsService;

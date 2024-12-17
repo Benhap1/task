@@ -1,6 +1,6 @@
 package com.em.tms.mapper;
 
-import com.em.tms.DTO.UserDTO;
+import com.em.tms.web.DTO.UserDTO;
 import com.em.tms.entity.User;
 import org.springframework.stereotype.Component;
 

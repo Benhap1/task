@@ -1,8 +1,8 @@
 package com.em.tms.service;
 
-import com.em.tms.DTO.AuthRequest;
-import com.em.tms.DTO.AuthResponse;
-import com.em.tms.DTO.UserDTO;
+import com.em.tms.web.DTO.AuthRequest;
+import com.em.tms.web.DTO.AuthResponse;
+import com.em.tms.web.DTO.UserDTO;
 
 public interface UserService {
     void registerUser(UserDTO userDTO);

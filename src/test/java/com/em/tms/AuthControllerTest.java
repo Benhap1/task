@@ -1,8 +1,8 @@
 package com.em.tms;
 
-import com.em.tms.DTO.AuthResponse;
-import com.em.tms.DTO.TokenRefreshRequest;
-import com.em.tms.controller.AuthController;
+import com.em.tms.web.DTO.AuthResponse;
+import com.em.tms.web.DTO.TokenRefreshRequest;
+import com.em.tms.web.controller.AuthController;
 import com.em.tms.service.AuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;

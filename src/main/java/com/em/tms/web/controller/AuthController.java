@@ -1,7 +1,7 @@
-package com.em.tms.controller;
+package com.em.tms.web.controller;
 
-import com.em.tms.DTO.AuthResponse;
-import com.em.tms.DTO.TokenRefreshRequest;
+import com.em.tms.web.DTO.AuthResponse;
+import com.em.tms.web.DTO.TokenRefreshRequest;
 import com.em.tms.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

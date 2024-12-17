@@ -1,4 +1,4 @@
-package com.em.tms.DTO;
+package com.em.tms.web.DTO;
 
 import com.em.tms.entity.TaskPriority;
 import com.em.tms.entity.TaskStatus;

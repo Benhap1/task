@@ -1,4 +1,4 @@
-package com.em.tms.DTO;
+package com.em.tms.web.DTO;
 
 public record AuthResponse(
          String accessToken,

@@ -1,7 +1,7 @@
 package com.em.tms.service.impl;
 
-import com.em.tms.DTO.CommentCreateDTO;
-import com.em.tms.DTO.CommentDTO;
+import com.em.tms.web.DTO.CommentCreateDTO;
+import com.em.tms.web.DTO.CommentDTO;
 import com.em.tms.entity.Comment;
 import com.em.tms.entity.Task;
 import com.em.tms.entity.User;

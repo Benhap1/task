@@ -1,9 +1,9 @@
 package com.em.tms;
 
-import com.em.tms.DTO.AuthRequest;
-import com.em.tms.DTO.AuthResponse;
-import com.em.tms.DTO.UserDTO;
-import com.em.tms.controller.UserController;
+import com.em.tms.web.DTO.AuthRequest;
+import com.em.tms.web.DTO.AuthResponse;
+import com.em.tms.web.DTO.UserDTO;
+import com.em.tms.web.controller.UserController;
 import com.em.tms.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
