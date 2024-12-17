@@ -2,6 +2,7 @@ package com.em.tms.service.impl;
 
 import com.em.tms.DTO.AuthResponse;
 import com.em.tms.DTO.TokenRefreshRequest;
+import com.em.tms.exception.InvalidTokenException;
 import com.em.tms.security.JwtTokenProvider;
 import com.em.tms.security.JwtUserDetailsService;
 import com.em.tms.service.AuthService;
@@ -22,10 +23,11 @@ public class AuthServiceImpl implements AuthService {
         String refreshToken = tokenRefreshRequest.refreshToken();
 
         if (!jwtTokenProvider.validateToken(refreshToken)) {
-            throw new RuntimeException("Invalid or expired refresh token");
+            throw new InvalidTokenException("Invalid or expired refresh token");
         }
 
         String email = jwtTokenProvider.extractUsername(refreshToken);
+
         var userDetails = jwtUserDetailsService.loadUserByUsername(email);
 
         String newAccessToken = jwtTokenProvider.generateAccessToken(userDetails, Map.of());

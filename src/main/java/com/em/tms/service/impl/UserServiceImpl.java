@@ -4,6 +4,8 @@ import com.em.tms.DTO.AuthRequest;
 import com.em.tms.DTO.AuthResponse;
 import com.em.tms.DTO.UserDTO;
 import com.em.tms.entity.User;
+import com.em.tms.exception.ResourceAlreadyExistsException;
+import com.em.tms.exception.ResourceNotFoundException;
 import com.em.tms.mapper.UserMapper;
 import com.em.tms.repository.UserRepository;
 import com.em.tms.security.JwtTokenProvider;
@@ -29,11 +31,10 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
 
-
     @Override
     public void registerUser(UserDTO userDTO) {
         if (userRepository.existsByEmail(userDTO.email())) {
-            throw new IllegalArgumentException("User with this email already exists");
+            throw new ResourceAlreadyExistsException("User with this email already exists");
         }
         User user = userMapper.toEntity(userDTO);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -42,7 +43,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public AuthResponse authenticate(AuthRequest authRequest) {
-
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequest.email(), authRequest.password())
         );
@@ -64,14 +64,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getUserByEmail(String email) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
         return new UserDTO(user.getEmail(), user.getPassword(), user.getRole());
     }
 
     @Override
     public void updateUser(String email, UserDTO userDTO) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
         user.setEmail(userDTO.email());
         user.setPassword(passwordEncoder.encode(userDTO.password()));
         user.setRole(userDTO.role());
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(String email) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
 
         userRepository.delete(user);
     }

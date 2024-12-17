@@ -1,25 +1,18 @@
 package com.em.tms.controller;
+
 import com.em.tms.DTO.TaskCreateDTO;
 import com.em.tms.DTO.TaskDTO;
 import com.em.tms.DTO.TaskUpdateDTO;
 import com.em.tms.service.TaskService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import jakarta.validation.Valid;
-import com.em.tms.service.UserService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -29,6 +22,11 @@ public class TaskController {
     private final TaskService taskService;
 
     @Operation(summary = "Создание новой задачи")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Задача успешно создана"),
+            @ApiResponse(responseCode = "400", description = "Некорректные данные задачи"),
+            @ApiResponse(responseCode = "500", description = "Ошибка сервера")
+    })
     @PostMapping
     @Secured("ROLE_ADMIN")
     @ResponseStatus(HttpStatus.CREATED)
@@ -37,7 +35,14 @@ public class TaskController {
     }
 
 
+
     @Operation(summary = "Редактирование задачи по ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Задача успешно обновлена"),
+            @ApiResponse(responseCode = "400", description = "Некорректные данные для обновления задачи"),
+            @ApiResponse(responseCode = "404", description = "Задача с таким ID не найдена"),
+            @ApiResponse(responseCode = "500", description = "Ошибка сервера")
+    })
     @PutMapping("/{taskId}")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @ResponseStatus(HttpStatus.OK)
@@ -46,16 +51,29 @@ public class TaskController {
         return taskService.updateTask(taskId, taskUpdateDTO);
     }
 
+
+
     @Operation(summary = "Удаление задачи по ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Задача успешно удалена"),
+            @ApiResponse(responseCode = "404", description = "Задача с таким ID не найдена"),
+            @ApiResponse(responseCode = "500", description = "Ошибка сервера")
+    })
     @DeleteMapping("/{taskId}")
     @Secured("ROLE_ADMIN")
     @ResponseStatus(HttpStatus.OK)
-    public String deleteTask(@PathVariable int taskId) {
+    public void deleteTask(@PathVariable int taskId) {
         taskService.deleteTask(taskId);
-        return "Task deleted successfully";
     }
 
+
+
     @Operation(summary = "Получение задачи по ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Задача найдена"),
+            @ApiResponse(responseCode = "404", description = "Задача с таким ID не найдена"),
+            @ApiResponse(responseCode = "500", description = "Ошибка сервера")
+    })
     @GetMapping("/{taskId}")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @ResponseStatus(HttpStatus.OK)
@@ -63,7 +81,13 @@ public class TaskController {
         return taskService.getTaskById(taskId);
     }
 
+
+
     @Operation(summary = "Получение всех задач с фильтрацией и пагинацией")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Список задач успешно получен"),
+            @ApiResponse(responseCode = "500", description = "Ошибка сервера")
+    })
     @GetMapping
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @ResponseStatus(HttpStatus.OK)

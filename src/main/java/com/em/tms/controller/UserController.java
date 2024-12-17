@@ -1,21 +1,18 @@
 package com.em.tms.controller;
 
-import com.em.tms.DTO.AuthResponse;
 import com.em.tms.DTO.AuthRequest;
+import com.em.tms.DTO.AuthResponse;
 import com.em.tms.DTO.UserDTO;
+import com.em.tms.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import jakarta.validation.Valid;
-import com.em.tms.service.UserService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 
 @RestController
@@ -40,19 +37,33 @@ public class UserController {
     })
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public String registerUser(@Valid @RequestBody UserDTO userDTO) {
+    public void registerUser(@Valid @RequestBody UserDTO userDTO) {
         userService.registerUser(userDTO);
-        return "User registered successfully";
     }
 
-    @Operation(summary = "Логин пользователя")
+
+
+    @Operation(summary = "Логин пользователя", description = "Этот метод используется для логина. " +
+            "Метод возвращает токены, которые будут необходимы для аутентификации и выполнения CRUD в программе.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Успешный вход в систему"),
+            @ApiResponse(responseCode = "401", description = "Неверные данные для аутентификации"),
+            @ApiResponse(responseCode = "500", description = "Ошибка сервера")
+    })
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     public AuthResponse login(@Valid @RequestBody AuthRequest authRequest) {
         return userService.authenticate(authRequest);
     }
 
+
+
     @Operation(summary = "Получение пользователя по email")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Пользователь найден"),
+            @ApiResponse(responseCode = "404", description = "Пользователь с таким email не найден"),
+            @ApiResponse(responseCode = "500", description = "Ошибка сервера")
+    })
     @GetMapping("/{email}")
     @Secured("ROLE_ADMIN")
     @ResponseStatus(HttpStatus.OK)
@@ -61,21 +72,33 @@ public class UserController {
     }
 
 
+
     @Operation(summary = "Обновление данных пользователя по email")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Данные пользователя успешно обновлены"),
+            @ApiResponse(responseCode = "404", description = "Пользователь с таким email не найден"),
+            @ApiResponse(responseCode = "400", description = "Некорректные данные пользователя"),
+            @ApiResponse(responseCode = "500", description = "Ошибка сервера")
+    })
     @PutMapping("/{email}")
     @Secured("ROLE_ADMIN")
     @ResponseStatus(HttpStatus.OK)
-    public String updateUser(@PathVariable String email, @Valid @RequestBody UserDTO userDTO) {
+    public void updateUser(@PathVariable String email, @Valid @RequestBody UserDTO userDTO) {
         userService.updateUser(email, userDTO);
-        return "User updated successfully";
     }
 
+
+
     @Operation(summary = "Удаление пользователя по email")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Пользователь успешно удалён"),
+            @ApiResponse(responseCode = "404", description = "Пользователь с таким email не найден"),
+            @ApiResponse(responseCode = "500", description = "Ошибка сервера")
+    })
     @DeleteMapping("/{email}")
     @Secured("ROLE_ADMIN")
     @ResponseStatus(HttpStatus.OK)
-    public String deleteUser(@PathVariable String email) {
+    public void deleteUser(@PathVariable String email) {
         userService.deleteUser(email);
-        return "User deleted successfully";
     }
 }

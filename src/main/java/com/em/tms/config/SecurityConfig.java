@@ -3,6 +3,7 @@ package com.em.tms.config;
 import com.em.tms.security.JwtAuthenticationFilter;
 import com.em.tms.security.JwtTokenProvider;
 import com.em.tms.security.JwtUserDetailsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -17,16 +18,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 
 @Configuration
+@RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig {
-
     private final JwtTokenProvider jwtTokenProvider;
     private final JwtUserDetailsService jwtUserDetailsService;
-
-    public SecurityConfig(JwtTokenProvider jwtTokenProvider, JwtUserDetailsService jwtUserDetailsService) {
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.jwtUserDetailsService = jwtUserDetailsService;
-    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

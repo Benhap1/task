@@ -3,8 +3,11 @@ package com.em.tms.controller;
 import com.em.tms.DTO.CommentCreateDTO;
 import com.em.tms.DTO.CommentDTO;
 import com.em.tms.service.CommentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,14 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import jakarta.validation.Valid;
-import com.em.tms.service.UserService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 
 @RestController
@@ -72,9 +67,9 @@ public class CommentController {
     @DeleteMapping("/{commentId}")
     @Secured("ROLE_ADMIN")
     @ResponseStatus(HttpStatus.OK)
-    public String deleteComment(@PathVariable int commentId) {
+    public void deleteComment(@PathVariable int commentId) {
         commentService.deleteComment(commentId);
-        return "Comment deleted successfully";
+
     }
 }
 

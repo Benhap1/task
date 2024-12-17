@@ -10,9 +10,9 @@ public interface TaskService {
     TaskDTO createTask(TaskCreateDTO taskCreateDTO);
     TaskDTO updateTask(int taskId, TaskUpdateDTO taskUpdateDTO);
 
-    public void deleteTask(int taskId);
-    public TaskDTO getTaskById(int taskId);
+    void deleteTask(int taskId);
+    TaskDTO getTaskById(int taskId);
 
-    public Page<TaskDTO> getAllTasks(String status, String priority, String authorEmail, String assigneeEmail, int page, int size);
+    Page<TaskDTO> getAllTasks(String status, String priority, String authorEmail, String assigneeEmail, int page, int size);
 
 }

@@ -3,6 +3,7 @@ package com.em.tms.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.em.tms.exception.JwtTokenException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,6 @@ import java.util.Map;
 public class JwtTokenProvider {
 
     private final Algorithm algorithm;
-    private final JwtUserDetailsService jwtUserDetailsService;
 
     @Value("${jwt.access-token-validity}")
     private long accessTokenValidity;
@@ -25,7 +25,6 @@ public class JwtTokenProvider {
 
     public JwtTokenProvider(@Value("${jwt.secret}") String secret, JwtUserDetailsService jwtUserDetailsService) {
         this.algorithm = Algorithm.HMAC256(secret);
-        this.jwtUserDetailsService = jwtUserDetailsService;
     }
 
     public String generateAccessToken(UserDetails userDetails, Map<String, Object> claims) {
@@ -51,23 +50,38 @@ public class JwtTokenProvider {
                 .sign(algorithm);
     }
 
-
     public boolean validateToken(String token) {
-        return !isTokenExpired(token);
+        try {
+            return !isTokenExpired(token);
+        } catch (JwtTokenException e) {
+            throw new JwtTokenException("Invalid JWT token: " + e.getMessage(), e);
+        }
     }
 
     public String extractUsername(String token) {
-        return decodeToken(token).getSubject();
+        try {
+            return decodeToken(token).getSubject();
+        } catch (JwtTokenException e) {
+            throw new JwtTokenException("Failed to extract username from JWT token: " + e.getMessage(), e);
+        }
     }
 
     public Date extractExpiration(String token) {
-        return decodeToken(token).getExpiresAt();
+        try {
+            return decodeToken(token).getExpiresAt();
+        } catch (JwtTokenException e) {
+            throw new JwtTokenException("Failed to extract expiration date from JWT token: " + e.getMessage(), e);
+        }
     }
 
     private DecodedJWT decodeToken(String token) {
-        return JWT.require(algorithm)
-                .build()
-                .verify(token);
+        try {
+            return JWT.require(algorithm)
+                    .build()
+                    .verify(token);
+        } catch (Exception e) {
+            throw new JwtTokenException("JWT token decoding failed: " + e.getMessage(), e);
+        }
     }
 
     private boolean isTokenExpired(String token) {
