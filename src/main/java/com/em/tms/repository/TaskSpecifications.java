@@ -1,4 +1,4 @@
-package com.em.tms.service;
+package com.em.tms.repository;
 
 import com.em.tms.entity.Task;
 import com.em.tms.entity.TaskPriority;

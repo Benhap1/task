@@ -13,7 +13,7 @@ import com.em.tms.mapper.TaskMapper;
 import com.em.tms.repository.TaskRepository;
 import com.em.tms.repository.UserRepository;
 import com.em.tms.service.TaskService;
-import com.em.tms.service.TaskSpecifications;
+import com.em.tms.repository.TaskSpecifications;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

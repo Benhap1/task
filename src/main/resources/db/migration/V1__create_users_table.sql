@@ -1,4 +1,7 @@
 -- V1__create_users_table.sql
+
+CREATE SCHEMA IF NOT EXISTS public;
+
 CREATE TABLE IF NOT EXISTS public.users
 (
     id SERIAL PRIMARY KEY,
